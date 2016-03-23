@@ -38,8 +38,9 @@ app
         ],
         'contrastLightColors': undefined // could also specify this if default was 'dark'
     });
-    $mdThemingProvider.theme('default')
-        .primaryPalette('amazingPaletteName');
+    // $mdThemingProvider.theme('default').primaryPalette('amazingPaletteName');
+
+    $mdThemingProvider.theme('default').primaryPalette('blue', {'default': '900'})
 
 
     $mdThemingProvider.theme('docs-dark')
