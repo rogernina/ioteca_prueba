@@ -1,0 +1,115 @@
+.subheaderdemoBasicUsage .face {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    width: 48px;
+    margin: 16px;
+}
+
+md-whiteframe {
+    background: #fff;
+    margin: 30px;
+    height: 100px;
+}
+
+.app-container {
+    border-radius: 4px;
+    margin-bottom: 16px;
+    -webkit-transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
+    transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
+    position: relative;
+    padding-bottom: 0;
+}
+
+md-datepicker {
+    margin-top: 18px;
+}
+
+.md-datepicker-button {
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+}
+
+.md-datepicker-input-container {
+    margin-left: 2px;
+}
+
+.tabsdemoDynamicHeight md-content {
+    background-color: transparent !important;
+}
+
+.tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1;
+}
+
+.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+    background: white;
+}
+
+.tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0;
+}
+
+
+.card-media {
+    background-color: #999999;
+}
+
+.whiteframedemoBasicClassUsage {
+    /* For breakpoint `-xs` */
+    /* For breakpoint `-sm` */
+    /* For breakpoint `-md` */
+    /* For breakpoint `-gt-md` */
+}
+
+md-whiteframe {
+    background: #fff;
+    margin: 30px;
+    height: 100px;
+}
+
+@media (max-width: 599px) {
+    md-whiteframe {
+        margin: 7px;
+        height: 50px;
+        background-color: #c8e4fa;
+    }
+    md-whiteframe > span {
+        font-size: 0.4em;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+    md-whiteframe {
+        margin: 20px;
+        height: 75px;
+    }
+    md-whiteframe > span {
+        font-size: 0.6em;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1279px) {
+    md-whiteframe {
+        margin: 20px;
+        height: 90px;
+        background-color: #fcddde;
+    }
+    md-whiteframe > span {
+        font-size: 0.9em;
+    }
+}
+
+@media (min-width: 1280px) {
+    md-whiteframe {
+        margin: 25px;
+        height: 100px;
+        background-color: #F2FCE2;
+    }
+    md-whiteframe > span {
+        font-size: 1.0em;
+    }
+}
+
+

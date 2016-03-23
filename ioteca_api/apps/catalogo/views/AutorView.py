@@ -1,4 +1,6 @@
 from rest_framework import serializers, viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route, list_route
 from django.db.models import Q
 from operator import __or__ as OR
 from functools import reduce
@@ -11,8 +13,10 @@ from ..utils import MiSetPagination
 
 
 class AutorViewSet(viewsets.ModelViewSet):
+    queryset=Autor.objects.all()
     serializer_class = AutorSerializer
     pagination_class = MiSetPagination
+
 
     def get_queryset(self):
         queryset=Autor.objects.all()
@@ -33,4 +37,13 @@ class AutorViewSet(viewsets.ModelViewSet):
             if results is not None:
                 serializer = self.get_serializer(results, many=True)
                 return self.get_paginated_response(serializer.data)
+
+    @list_route(url_path='libros')
+    def libros_autor(self, request, *args, **kwargs):
+        # data = self.get_queryset().filter(autors=pk)
+        return Response({'results':str('Hola Mundo')})
+        
+    
+
+
 

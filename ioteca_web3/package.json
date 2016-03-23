@@ -1,0 +1,22 @@
+{
+  "name": "ioteca_web",
+  "version": "1.0.0",
+  "description": "hi",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-material": "^1.0.2",
+    "angular-material-icons": "^0.6.0",
+    "angular-resource": "^1.4.9",
+    "angular-ui-router": "^0.2.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nada"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "author": "devhres",
+  "license": "ISC"
+}
