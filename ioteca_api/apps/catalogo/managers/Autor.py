@@ -1,4 +1,6 @@
 from django.db import connection, transaction, models
+from fpdf import FPDF
+
 
 class AutorManager(models.Manager):
 
@@ -24,3 +26,33 @@ class AutorManager(models.Manager):
 		finally:
 			c.close()
 		return r
+
+	@staticmethod
+	def pdf(query, title):
+		pdf=FPDF(format='letter', unit='in')
+		pdf.add_page()
+		pdf.set_font('Times','',7.0)
+		epw = pdf.w - 2*pdf.l_margin
+		col_width = epw/4
+
+		pdf.set_font('Times','B',14.0)
+		pdf.cell(epw, 0.0, title, align='C')
+		pdf.set_font('Times','',10.0)
+		pdf.ln(0.5)
+		th = pdf.font_size
+
+		for row in query:
+			for datum in row:
+				pdf.cell(col_width, th, str(datum), border=1)
+			pdf.ln(th)
+
+		pdf.ln(4*th)
+
+		return pdf.output('reporte.pdf','F')
+
+
+
+
+
+
+
