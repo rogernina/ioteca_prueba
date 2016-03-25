@@ -11,21 +11,24 @@ from ..serializers.Autor import AutorSerializer
 from ..utils import MiSetPagination
 
 
-
 class AutorViewSet(viewsets.ModelViewSet):
-    queryset=Autor.objects.all()
+    queryset = Autor.objects.all()
     serializer_class = AutorSerializer
     pagination_class = MiSetPagination
 
-
     def get_queryset(self):
-        queryset=Autor.objects.all()
+        queryset = Autor.objects.all()
         return queryset
 
     def list(self, request, *args, **kwargs):
         query = request.query_params.get('query', '')
+        all = self.request.query_params.get('all', None)
+        # if all == 'true':
+        #    self.pagination_class = None
+        #    return Autor.objects.all()
         if query is not None:
-            queryall = (Q(nombre__icontains=query),Q(direccion__icontains=query))
+            queryall = (Q(nombre__icontains=query),
+                        Q(direccion__icontains=query))
             queryset = self.get_queryset().filter(reduce(OR, queryall))
             results = self.paginate_queryset(queryset)
             if results is not None:
@@ -41,9 +44,4 @@ class AutorViewSet(viewsets.ModelViewSet):
     @list_route(url_path='libros')
     def libros_autor(self, request, *args, **kwargs):
         # data = self.get_queryset().filter(autors=pk)
-        return Response({'results':str('Hola Mundo')})
-        
-    
-
-
-
+        return Response({'results': str('Hola Mundo')})

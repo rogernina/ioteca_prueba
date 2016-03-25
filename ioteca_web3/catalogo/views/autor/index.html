@@ -4,7 +4,7 @@
             <md-card ng-controller="AutorCtrl">
                 <md-card-title>
                     <md-card-title-text>
-                        <span class="md-headline">Trabajar con Autores </span>
+                        <span class="md-headline">Trabajar con Autores EEEEE</span>
                         <span class="md-subhead">CRUD Autores</span>
                     </md-card-title-text>
                 </md-card-title>
@@ -48,7 +48,7 @@
                         </thead>
                         <tbody md-body>
                             <tr md-row ng-repeat="d in lista">
-                                <td md-cell> {{ d.num }}</td>
+                                <td md-cell>{{ (options.page - 1) * options.page_size +$index +1 }}</td>
                                 <td md-cell> {{ d.nombre }}</td>
                                 <td md-cell> {{ d.direccion }}</td>
                                 <td md-cell> {{ d.fecha_nac }}</td>

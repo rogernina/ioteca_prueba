@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 
 class MiSetPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 4
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
@@ -40,7 +40,8 @@ class MiSetPagination(PageNumberPagination):
                 'page': self.plus(),
                 'next': self.siguente(),
                 'previous': self.anterior(),
-                'range': self.range()
+                'range': self.range(),
+                'page_size': self.page_size
             },
             'results': data
         })
