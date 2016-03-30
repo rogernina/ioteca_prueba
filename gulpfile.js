@@ -42,4 +42,3 @@ gulp.task('catalogo', function() {
 	return compileJs(proyect, app)+compileHtml(proyect, app);
 });
 
-

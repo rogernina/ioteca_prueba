@@ -3,11 +3,9 @@ from ..models.Libro import Libro
 
 
 class LibroSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Libro
-
+	class Meta:
+		model = Libro
 
 class LibroViewSet(viewsets.ModelViewSet):
-    queryset = Libro.objects.all()
-    serializer_class = LibroSerializer
+	queryset = Libro.objects.all()
+	serializer_class = LibroSerializer

@@ -40,7 +40,7 @@ app
     .state("catalogo.categoria", {
         url: "/categoria",
         data: { section: 'Catálogo', page: 'Categoría' },
-        templateUrl: "build/catalogo/views/categoria/index.html"
+        templateUrl: "catalogo/views/categoria/index.html"
     })
 
     //==================================
@@ -49,6 +49,6 @@ app
     .state("catalogo.autor", {
         url: "/autor",
         data: { section: 'Catálogo', page: 'Autor' },
-        templateUrl: "build/catalogo/views/autor/index.html"
+        templateUrl: "catalogo/views/autor/index.html"
     });
 });

@@ -6,13 +6,13 @@ from operator import __or__ as OR
 from functools import reduce
 
 from ..models.Autor import Autor
+from ..models.Libro import Libro
 from ..serializers.Autor import AutorSerializer
 
 from ..utils import MiSetPagination
 
 
 class AutorViewSet(viewsets.ModelViewSet):
-    queryset = Autor.objects.all()
     serializer_class = AutorSerializer
     pagination_class = MiSetPagination
 
@@ -41,7 +41,36 @@ class AutorViewSet(viewsets.ModelViewSet):
                 serializer = self.get_serializer(results, many=True)
                 return self.get_paginated_response(serializer.data)
 
-    @list_route(url_path='libros')
-    def libros_autor(self, request, *args, **kwargs):
+    @list_route(url_path='export')
+    def reporte_autores(self, request, *args, **kwargs):
+        lista=[]
+        pre_query=self.get_queryset().values()
+        for x in pre_query:
+            lista.append([x['nombre'], x['direccion']])
+        print(lista)
+        data=Autor.objects.pdf(lista,'mi primer reporte')
         # data = self.get_queryset().filter(autors=pk)
-        return Response({'results': str('Hola Mundo')})
+        # return Response({'detail':str('Exportado a PDF')})
+        return Response(data)
+
+
+    @detail_route(url_path='libros')
+    def autor_libros(self, request, pk=None):
+        autor = self.get_queryset().get(pk=pk)
+        libros = Libro.objects.filter(autors=pk).values()
+        libros_count = Libro.objects.filter(autors=pk).count()
+        results={
+        'autor': autor.nombre,
+        'cantidad':libros_count,
+        'libros':libros
+        }
+        return Response({'detail': results})
+
+
+
+
+        
+    
+
+
+

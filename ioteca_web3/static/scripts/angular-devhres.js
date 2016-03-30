@@ -210,6 +210,7 @@ ngDevhres
 
 
     function myAccion(scope, page) {
+      console.log(scope.page+"-"+page);
       if (scope.page == page){return ; }
       scope.page = page;
       scope.accion({ page: scope.page,pages: scope.pages} );
@@ -222,6 +223,7 @@ ngDevhres
           value: i,
           myclase: (scope.page == i) ? scope.activado : '',
           action: function () {
+
             myAccion(scope, this.value);
           }
         };

@@ -75,6 +75,14 @@ app
         data: { section: 'UI', page: 'Test 4' },
         templateUrl: "ui/views/tests/test4.html"
     })
+    //==================================
+    // test5pagination
+    //==================================
+    .state("ui.test5", {
+        url: "/test5",
+        data: { section: 'UI', page: 'Test 5' },
+        templateUrl: "ui/views/tests/test5pagination.html"
+    })
 
 
     ;

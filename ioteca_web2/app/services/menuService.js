@@ -45,6 +45,10 @@ app
                 title: 'Test 4',
                 state: 'ui.test4',
                 type: 'link'
+            }, {
+                title: 'Test 5',
+                state: 'ui.test5',
+                type: 'link'
             }, ]
         }]
     });
