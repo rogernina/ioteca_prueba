@@ -216,7 +216,7 @@ ngDevhres
 
         var param = {};
         param.page = scope.page;
-        param.pages = scope.pages;
+        //param.pages = scope.pages;
         param.query = scope.query;
 
         //scope.accion({ page: scope.page, pages: scope.pages });
@@ -416,16 +416,24 @@ ngDevhres
                 }
                 scope.nextParams = {};
                 scope.nextParams.page = (parseInt(num) + 1);
+                scope.nextParams.query = scope.query;
                 angular.extend(scope.nextParams, parametros);
+
                 scope.endParams = {};
                 scope.endParams.page = scope.pages; //numPages();
+                scope.endParams.query = scope.query;
                 angular.extend(scope.endParams, parametros);
+
                 scope.prevParams = {};
                 scope.prevParams.page = (parseInt(num) - 1);
+                scope.prevParams.query = scope.query;
                 angular.extend(scope.prevParams, parametros);
+
                 scope.startParams = {};
                 scope.startParams.page = 1;
+                scope.startParams.query = scope.query;
                 angular.extend(scope.startParams, parametros);
+                
                 //scope.count = parseInt(scope.count);
                 scope.per = parseInt(scope.per);
                 scope.pagesInRange = calculatePagesInRange(parseInt(num));
