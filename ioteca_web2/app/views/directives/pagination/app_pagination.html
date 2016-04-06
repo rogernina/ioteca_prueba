@@ -1,0 +1,47 @@
+<style>
+    .paginacion .md-button {
+        padding: 0px !important;
+        margin: 0px 1px !important;
+        line-height: 28px !important;
+        min-width: 32px !important;
+        min-height: 30px !important;
+    }
+</style>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="paginacion">
+    <md-button class="md-raised  md-mini" aria-label="Settings" ng-disabled="prevParams.page == 0"
+               data-ng-click="listpag(startParams,startParams.page)">
+        <ng-md-icon icon="skip_previous" size="24"></ng-md-icon>
+    </md-button>
+    <md-button class="md-raised  md-mini" aria-label="Settings" ng-disabled="prevParams.page == 0"
+               data-ng-click="listpag(prevParams,prevParams.page)">
+        <ng-md-icon icon="fast_rewind" size="24"></ng-md-icon>
+    </md-button>
+    <md-button class=" md-raised  md-mini" aria-label="Settings" ng-show="pagesInRange[0].page != 1"
+               data-ng-click="listpag(firstPageInRange[0].cp,firstPageInRange[0].cp.page)">
+        ...
+    </md-button>
+    <div ng-repeat="p in pagesInRange">
+        <md-button class="md-raised  md-mini" ng-class="{'md-primary': p.page == currentPage}"
+                   data-ng-click="listpag(p.params,p.page)">
+            {{p.page}}
+        </md-button>
+    </div>
+    <md-button class="md-raised  md-mini" aria-label="Settings"
+               ng-show="pagesInRange[pagesInRange.length-1].page != pages"
+               data-ng-click="listpag(lastPageInRange[0].cp,lastPageInRange[0].cp.page)">
+        ...
+    </md-button>
+    <md-button class="md-raised  md-mini" aria-label="Settings"
+               data-ng-click="listpag(nextParams,nextParams.page)"
+               ng-disabled="nextParams.page > pages">
+        <ng-md-icon icon="fast_forward" size="24"></ng-md-icon>
+    </md-button>
+    <md-button class="md-raised  md-mini" aria-label="Settings"
+               data-ng-click="listpag(endParams,endParams.page)"
+               ng-disabled="nextParams.page > pages">
+        <ng-md-icon icon="skip_next" size="24"></ng-md-icon>
+    </md-button>
+<span ng-bind="rango"></span> 
+</section>
+

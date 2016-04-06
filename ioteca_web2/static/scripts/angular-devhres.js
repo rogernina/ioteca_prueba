@@ -142,156 +142,313 @@ ngDevhres
 
 ngDevhres
 
-  .directive('miPagination', function (){
+    .directive('miPagination', function() {
     return {
-      restrict: 'EA',
-      link: myLink,
-      scope: {
-        page: '=',
-        pages: '=',
-        next: '=',
-        previous: '=',
-        rango: '=',
-        accion: '&',
-        activado: '@'
-      },
-      template:
-      '<ul>' +
-      '<li ' +
-      'data-ng-class="ecq.myclase" ' +
-      'data-ng-click="ecq.action()"' +
-      'data-ng-repeat="ecq in Pagination"> ' +
-      '<span data-ng-bind="ecq.value"></span> ' +
-      '</li>' +
-      '</ul>'
+        restrict: 'EA',
+        link: myLink,
+        scope: {
+            query: '=',
+            page: '=',
+            pages: '=',
+            next: '=',
+            previous: '=',
+            rango: '=',
+            accion: '&',
+            activado: '@'
+        },
+        //templateUrl: 'app/views/directives/pagination/mi_pagination.html',
+        template: '<ul>' +
+            '<li ng-repeat="ecq in Pagination" ng-class="ecq.myclase" ng-click="ecq.action()">' +
+            '<span ng-bind="ecq.value"></span>' +
+            '</li>' +
+            '</ul>' +
+            '',
     };
 
     function myLink(scope, el, attrs) {
-      scope.$watchCollection('[page,pages,next,previous,rango,activado]', function () {
-        Algoritmo(scope, attrs);
-      });
+        scope.$watchCollection('[page,pages,next,previous,rango,activado, query]', function() {
+            Algoritmo(scope, attrs);
+        });
     }
 
     function parametrosDefault(scope, attrs) {
-      scope.Pagination = [];
-      scope.puntos = scope.puntos || '...';
-      scope.page = parseInt(scope.page);
-      scope.pages = parseInt(scope.pages);
-      scope.adjacent = parseInt(scope.adjacent) || 2;
-      scope.activado = scope.activado || 'active';
+        scope.Pagination = [];
+        scope.puntos = scope.puntos || '...';
+        scope.page = parseInt(scope.page);
+        scope.pages = parseInt(scope.pages);
+        scope.adjacent = parseInt(scope.adjacent) || 2;
+        scope.activado = scope.activado || 'active';
     }
 
     function anteriorSiguente(scope, opcion) {
-      var deshabilitar, var1, var2;
-      if(opcion === 'anterior') {
-        deshabilitar = scope.page - 1 <= 0;
-        var1 = { value : "<<", page: 1 };
-        var2 = { value: "<", page: scope.previous };
-      } else {
-        deshabilitar = scope.page + 1 > scope.pages;
-        var1 = { value : ">",page: scope.next };
-        var2 = { value: ">>",page: scope.pages};
-      }
+        var deshabilitar, var1, var2;
+        if (opcion === 'anterior') {
+            deshabilitar = scope.page - 1 <= 0;
+            var1 = { value: "<<", page: 1 };
+            var2 = { value: "<", page: scope.previous };
+        } else {
+            deshabilitar = scope.page + 1 > scope.pages;
+            var1 = { value: ">", page: scope.next };
+            var2 = { value: ">>", page: scope.pages };
+        }
 
-      var mybutton = function(myparam, deshabilitar){
-        scope.Pagination.push({
-          value: myparam.value,
-          action: function(){
-            if(!deshabilitar) {
-              myAccion(scope, myparam.page);
-            }
-          }
-        });
-      };
+        var mybutton = function(myparam, deshabilitar) {
+            scope.Pagination.push({
+                value: myparam.value,
+                action: function() {
+                    if (!deshabilitar) {
+                        myAccion(scope, myparam.page);
+                    }
+                }
+            });
+        };
 
-      mybutton(var1, deshabilitar);
-      mybutton(var2, deshabilitar);
+        mybutton(var1, deshabilitar);
+        mybutton(var2, deshabilitar);
     }
 
 
     function myAccion(scope, page) {
-      if (scope.page == page){return ; }
-      scope.page = page;
-      scope.accion({ page: scope.page,pages: scope.pages} );
+        if (scope.page == page) {
+            return;
+        }
+        scope.page = page;
+
+        var param = {};
+        param.page = scope.page;
+        param.pages = scope.pages;
+        param.query = scope.query;
+
+        //scope.accion({ page: scope.page, pages: scope.pages });
+        scope.accion({ params: param });
     }
 
     function rango(inicio, fin, scope) {
-      var i = 0;
-      for (i = inicio; i <= fin; i++) {
-        var item = {
-          value: i,
-          myclase: (scope.page == i) ? scope.activado : '',
-          action: function () {
-            myAccion(scope, this.value);
-          }
-        };
-        scope.Pagination.push(item);
-      }
+        var i = 0;
+        for (i = inicio; i <= fin; i++) {
+            var item = {
+                value: i,
+                myclase: (scope.page == i) ? scope.activado : '',
+                action: function() {
+                    myAccion(scope, this.value);
+                }
+            };
+            scope.Pagination.push(item);
+        }
     }
 
     function agregarPuntos(scope) {
-      scope.Pagination.push({value: scope.puntos});
+        scope.Pagination.push({ value: scope.puntos });
     }
 
     function agregarRango(scope) {
-      scope.Pagination.push({value: scope.rango});
+        scope.Pagination.push({ value: scope.rango });
     }
 
-    function agregarPrimero(next,scope) {
-      rango(1,2,scope);
-      if(next != 3){
-        agregarPuntos(scope);
-      }
+    function agregarPrimero(next, scope) {
+        rango(1, 2, scope);
+        if (next != 3) {
+            agregarPuntos(scope);
+        }
     }
 
-    function agregarUltimo(prev,scope) {
-      if(prev != scope.pages - 2){
-        agregarPuntos(scope);
-      }
-      rango(scope.pages - 1,scope.pages, scope);
+    function agregarUltimo(prev, scope) {
+        if (prev != scope.pages - 2) {
+            agregarPuntos(scope);
+        }
+        rango(scope.pages - 1, scope.pages, scope);
     }
 
 
     function Algoritmo(scope, attrs) {
-      parametrosDefault(scope, attrs);
-      var adj = (scope.adjacent * 2) + 2;
-      var inicio, fin;
+        parametrosDefault(scope, attrs);
+        var adj = (scope.adjacent * 2) + 2;
+        var inicio, fin;
 
-      agregarRango(scope);
-      anteriorSiguente(scope,'anterior');
-      if (scope.pages <= (adj + 2)) {
-        inicio = 1;
-        rango(inicio, scope.pages, scope);
-      }else{
+        agregarRango(scope);
+        anteriorSiguente(scope, 'anterior');
+        if (scope.pages <= (adj + 2)) {
+            inicio = 1;
+            rango(inicio, scope.pages, scope);
+        } else {
 
-        if (scope.page - scope.adjacent <= 2) {
-          inicio = 1;
-          fin = 1 + adj;
-          rango(inicio, fin, scope);
-          agregarUltimo(fin,scope);
-          
-        
-        } else if (scope.page < scope.pages - (scope.adjacent + 2)) {
+            if (scope.page - scope.adjacent <= 2) {
+                inicio = 1;
+                fin = 1 + adj;
+                rango(inicio, fin, scope);
+                agregarUltimo(fin, scope);
 
-          inicio = scope.page - scope.adjacent;
-          fin = scope.page + scope.adjacent;
+            } else if (scope.page < scope.pages - (scope.adjacent + 2)) {
 
-          agregarPrimero(inicio,scope);
-          rango(inicio,fin,scope);
-          agregarUltimo(fin,scope);
-          
+                inicio = scope.page - scope.adjacent;
+                fin = scope.page + scope.adjacent;
 
-        
-        }else{
-          inicio = scope.pages - adj;
-          fin = scope.pages;
-          agregarPrimero(inicio,scope);
-          rango(inicio, fin, scope);
+                agregarPrimero(inicio, scope);
+                rango(inicio, fin, scope);
+                agregarUltimo(fin, scope);
+
+            } else {
+                inicio = scope.pages - adj;
+                fin = scope.pages;
+                agregarPrimero(inicio, scope);
+                rango(inicio, fin, scope);
+            }
         }
-      }
-      anteriorSiguente(scope,'siguente');
+        anteriorSiguente(scope, 'siguente');
     }
-  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ngDevhres
+    .directive('appPagination', function() {
+        return {
+            scope: {
+
+                query: '=',
+                format: '=',
+                display: '=',
+                per: '=',
+                page: '=',
+                pages: '=',
+                rango: '=',
+                sort: '@',
+                term: '@',
+                accion: '&'
+            },
+            link: myLink2,
+            templateUrl: 'app/views/directives/pagination/app_pagination.html',
+
+        };
+
+        function myLink2(scope, el, attrs) {
+            scope.$watchCollection('[per,page,pages, display, rango, format, query]', function() {
+                Algoritmo2(scope, attrs);
+            });
+        };
+
+        function Algoritmo2(scope, attrs) {
+            var rangeAlgorithms = {
+                all: function(numPages, currentPage) {
+                    var i,
+                        pagesInRange = [];
+                    var params = {};
+                    params.page = currentPage + 1;
+                    for (i = 1; i <= numPages; i++) {
+                        var param = {};
+                        param.page = i;
+                        pagesInRange.push({ page: i, params: param, cp: params });
+                    }
+                    return pagesInRange;
+                },
+                jumping: function(numPages, currentPage, size) {
+                    var i,
+                        min = Math.floor(currentPage / size) * size,
+                        max = Math.min(min + size - 1, numPages - 1),
+                        pagesInRange = [];
+                    var params = {};
+                    params.page = currentPage + 1;
+                    params.query = scope.query;
+                    for (i = min + 1; i <= max + 1; i++) {
+                        var param = {};
+                        param.page = i;
+                        param.query = scope.query;
+                        pagesInRange.push({ page: i, params: param, cp: params });
+                    }
+                    return pagesInRange;
+                },
+                sliding: function(numPages, currentPage, size) {
+                    var i,
+                        stepMin = Math.floor((size - 1) / 2),
+                        stepMax = size - 1 - stepMin,
+                        min = Math.max(0, currentPage - stepMin),
+                        max = Math.min(currentPage + stepMax, numPages - 1),
+                        pagesInRange = [];
+                    var params = {};
+                    params.page = currentPage + 1;
+                    while (min > 0 && max - min < size - 1) {
+                        min--;
+                    }
+                    while (max < numPages - 1 && max - min < size - 1) {
+                        max++;
+                    }
+                    for (i = min + 1; i <= max + 1; i++) {
+                        var param = {};
+                        param.page = i;
+                        pagesInRange.push({ page: i, params: param, cp: params });
+                    }
+                    return pagesInRange;
+                }
+            };
+
+            function calculatePagesInRange(vl) {
+                vl--;
+                var currentPage = Math.max(0, Math.min(vl, numPages() - 1));
+                return rangeAlgorithms[scope.format](parseInt(numPages()), currentPage, parseInt(scope.display));
+            }
+
+            function numPages() {
+                // return Math.ceil(scope.count / scope.per);
+                return scope.pages;
+            }
+
+            var parametros = {};
+
+            function setVariables(num) {
+                if (num == null) {
+                    num = scope.page;
+                }
+                scope.nextParams = {};
+                scope.nextParams.page = (parseInt(num) + 1);
+                angular.extend(scope.nextParams, parametros);
+                scope.endParams = {};
+                scope.endParams.page = scope.pages; //numPages();
+                angular.extend(scope.endParams, parametros);
+                scope.prevParams = {};
+                scope.prevParams.page = (parseInt(num) - 1);
+                angular.extend(scope.prevParams, parametros);
+                scope.startParams = {};
+                scope.startParams.page = 1;
+                angular.extend(scope.startParams, parametros);
+                //scope.count = parseInt(scope.count);
+                scope.per = parseInt(scope.per);
+                scope.pagesInRange = calculatePagesInRange(parseInt(num));
+                var firstPageInRange = scope.pagesInRange[0],
+                    lastPageInRange = scope.pagesInRange[scope.pagesInRange.length - 1];
+                scope.firstPageInRange = calculatePagesInRange(parseInt(firstPageInRange.page) - 1);
+                scope.lastPageInRange = calculatePagesInRange(parseInt(lastPageInRange.page) + 1);
+                //scope.$state = $state;
+                scope.currentPage = num;
+                scope.pages = scope.pages; //numPages();
+                //scope.rango = scope.rango;
+            }
+
+            setVariables();
+            scope.listpag = function(params, num) {
+                scope.accion({ params: params });
+                setVariables(num);
+            };
+        }
+
+    });
+
+
 
 
 

@@ -1,5 +1,5 @@
 app.factory('uiPaginate', [
-                                        function() {
+function() {
         
     var rangeAlgorithms = {
         all: function(numPages, currentPage) {

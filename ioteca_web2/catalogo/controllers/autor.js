@@ -1,13 +1,19 @@
 app
 
-    .controller("AutorCtrl", function($scope, API, $window, $mdDialog) {
+    .controller("AutorCtrl", function($scope, API, $window, $stateParams, $mdDialog) {
 
+    //Valores iniciales
+    var params = {};
+    params.page = $stateParams.page ? $stateParams.page : 1;
+    //params.page_size = $scope.page_size ? $scope.page_size : 4;
     $scope.lista = [];
     $scope.autor = {};
-    $scope.page = 1;
+    
 
-    $scope.list = function(page) {
-        API.Autor.list({ query: $scope.query, page: page }).$promise.then(function(r) {
+    $scope.list = function(params) {
+        console.log("query: " + params.query);
+        //API.Autor.list({ query: $scope.query, page: page }).$promise.then(function(r) {
+        API.Autor.list(params).$promise.then(function(r) {
             $scope.lista = r.results;
             $scope.options = r.options;
         }, function(err) {
@@ -15,15 +21,25 @@ app
         });
     };
 
-    $scope.list($scope.page);
+    $scope.list(params);
 
-    $scope.listAll = function(page, page_size) {
-        API.Autor.list({ query: $scope.query, page: page, page_size: page_size }).$promise.then(function(r) {
-            $scope.lista = r.results;
-            $scope.options = r.options;
-        }, function(err) {
-            console.log("Err " + err);
-        });
+    $scope.buscar = function() {
+        params.page = 1;
+        //params.fields = 'nombre,codigo';
+        params.query = $scope.query;
+        $scope.list(params);
+
+    };
+
+
+    $scope.listAll = function(page_size) {
+        //params.page = 1;
+        //params.fields = 'nombre,codigo';
+        params.query = $scope.query;
+        params.page_size = page_size; //ToDo quitar
+        params.all = true; //ToDo, así debe quedar
+        $scope.list(params);
+
     };
 
     //mdDialog
@@ -42,7 +58,7 @@ app
             clickOutsideToClose: false,
             preserveScope: true,
         }).then(function() {
-            $scope.list($scope.page);
+            $scope.list(params);
 
         }, function() {});
     };
@@ -61,7 +77,7 @@ app
             clickOutsideToClose: false,
             preserveScope: true,
         }).then(function() {
-            $scope.list($scope.page);
+            $scope.list(params);
             $scope.autor = {};
         }, function() {});
     };
@@ -93,7 +109,7 @@ app
         if ($window.confirm("Seguro?")) {
             API.Autor.delete({ id: d.id }).$promise.then(function(r) {
                 console.log("r: " + r);
-                $scope.list($scope.page);
+                $scope.list(params);
             }, function(err) {
                 console.log("Err " + err);
             });

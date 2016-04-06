@@ -29,19 +29,22 @@ class MiSetPagination(PageNumberPagination):
         total = self.page.paginator.count
         start = self.page.start_index()
         end = self.page.end_index()
-        rangep = '{0} - {1}/{2}'.format(start, end, total)
+        rangep = '({0} - {1})/{2}'.format(start, end, total)
         return rangep
+    # 'page': self.plus(),
 
     def get_paginated_response(self, data):
         return Response({
             'options': {
                 'count': self.page.paginator.count,
                 'pages': self.page.paginator.num_pages,
-                'page': self.plus(),
+
+                'page': self.page.number,
                 'next': self.siguente(),
                 'previous': self.anterior(),
                 'range': self.range(),
-                'page_size': self.page_size
+                'page_size': self.page_size,
+                'per': self.page_size,
             },
             'results': data
         })
