@@ -348,12 +348,12 @@ ngDevhres
                 all: function(numPages, currentPage) {
                     var i,
                         pagesInRange = [];
-                    var params = {};
-                    params.page = currentPage + 1;
+                    var cp = {};
+                    cp.page = currentPage + 1;
                     for (i = 1; i <= numPages; i++) {
-                        var param = {};
-                        param.page = i;
-                        pagesInRange.push({ page: i, params: param, cp: params });
+                        var params = {};
+                        params.page = i;
+                        pagesInRange.push({ page: i, params: params, cp: cp });
                     }
                     return pagesInRange;
                 },
@@ -362,14 +362,14 @@ ngDevhres
                         min = Math.floor(currentPage / size) * size,
                         max = Math.min(min + size - 1, numPages - 1),
                         pagesInRange = [];
-                    var params = {};
-                    params.page = currentPage + 1;
-                    params.query = scope.query;
+                    var cp = {};
+                    cp.page = currentPage + 1;
+                    cp.query = scope.query;
                     for (i = min + 1; i <= max + 1; i++) {
-                        var param = {};
-                        param.page = i;
-                        param.query = scope.query;
-                        pagesInRange.push({ page: i, params: param, cp: params });
+                        var params = {};
+                        params.page = i;
+                        params.query = scope.query;
+                        pagesInRange.push({ page: i, params: params, cp: cp });
                     }
                     return pagesInRange;
                 },
@@ -380,8 +380,8 @@ ngDevhres
                         min = Math.max(0, currentPage - stepMin),
                         max = Math.min(currentPage + stepMax, numPages - 1),
                         pagesInRange = [];
-                    var params = {};
-                    params.page = currentPage + 1;
+                    var cp = {};
+                    cp.page = currentPage + 1;
                     while (min > 0 && max - min < size - 1) {
                         min--;
                     }
@@ -389,9 +389,9 @@ ngDevhres
                         max++;
                     }
                     for (i = min + 1; i <= max + 1; i++) {
-                        var param = {};
-                        param.page = i;
-                        pagesInRange.push({ page: i, params: param, cp: params });
+                        var params = {};
+                        params.page = i;
+                        pagesInRange.push({ page: i, params: params, cp: cp });
                     }
                     return pagesInRange;
                 }
@@ -399,7 +399,7 @@ ngDevhres
 
             function calculatePagesInRange(vl) {
                 vl--;
-                var currentPage = Math.max(0, Math.min(vl, numPages() - 1));
+                var currentPage = Math.max(1, Math.min(vl, numPages() ));
                 return rangeAlgorithms[scope.format](parseInt(numPages()), currentPage, parseInt(scope.display));
             }
 
@@ -408,42 +408,42 @@ ngDevhres
                 return scope.pages;
             }
 
-            var parametros = {};
+            var params = {};
+
 
             function setVariables(num) {
                 if (num == null) {
                     num = scope.page;
                 }
+                params.query = scope.query;
+
                 scope.nextParams = {};
                 scope.nextParams.page = (parseInt(num) + 1);
-                scope.nextParams.query = scope.query;
-                angular.extend(scope.nextParams, parametros);
+                angular.extend(scope.nextParams, params);
 
                 scope.endParams = {};
                 scope.endParams.page = scope.pages; //numPages();
-                scope.endParams.query = scope.query;
-                angular.extend(scope.endParams, parametros);
+                angular.extend(scope.endParams, params);
 
                 scope.prevParams = {};
                 scope.prevParams.page = (parseInt(num) - 1);
-                scope.prevParams.query = scope.query;
-                angular.extend(scope.prevParams, parametros);
+                angular.extend(scope.prevParams, params);
 
                 scope.startParams = {};
                 scope.startParams.page = 1;
-                scope.startParams.query = scope.query;
-                angular.extend(scope.startParams, parametros);
-                
+                angular.extend(scope.startParams, params);
+
                 //scope.count = parseInt(scope.count);
-                scope.per = parseInt(scope.per);
+                //scope.per = parseInt(scope.per);
                 scope.pagesInRange = calculatePagesInRange(parseInt(num));
-                var firstPageInRange = scope.pagesInRange[0],
-                    lastPageInRange = scope.pagesInRange[scope.pagesInRange.length - 1];
+                var firstPageInRange = scope.pagesInRange[0];
+                var lastPageInRange = scope.pagesInRange[scope.pagesInRange.length - 1];
+                
                 scope.firstPageInRange = calculatePagesInRange(parseInt(firstPageInRange.page) - 1);
                 scope.lastPageInRange = calculatePagesInRange(parseInt(lastPageInRange.page) + 1);
                 //scope.$state = $state;
-                scope.currentPage = num;
-                scope.pages = scope.pages; //numPages();
+                //scope.currentPage = num;
+                //scope.pages = scope.pages; //numPages();
                 //scope.rango = scope.rango;
             }
 

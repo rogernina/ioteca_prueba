@@ -17,12 +17,18 @@
                data-ng-click="listpag(prevParams,prevParams.page)">
         <ng-md-icon icon="fast_rewind" size="24"></ng-md-icon>
     </md-button>
+
+
+
+
+
+    
     <md-button class=" md-raised  md-mini" aria-label="Settings" ng-show="pagesInRange[0].page != 1"
                data-ng-click="listpag(firstPageInRange[0].cp,firstPageInRange[0].cp.page)">
         ...
     </md-button>
     <div ng-repeat="p in pagesInRange">
-        <md-button class="md-raised  md-mini" ng-class="{'md-primary': p.page == currentPage}"
+        <md-button class="md-raised  md-mini" ng-class="{'md-primary': p.page == page}"
                    data-ng-click="listpag(p.params,p.page)">
             {{p.page}}
         </md-button>
@@ -32,6 +38,9 @@
                data-ng-click="listpag(lastPageInRange[0].cp,lastPageInRange[0].cp.page)">
         ...
     </md-button>
+
+
+
     <md-button class="md-raised  md-mini" aria-label="Settings"
                data-ng-click="listpag(nextParams,nextParams.page)"
                ng-disabled="nextParams.page > pages">
