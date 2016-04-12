@@ -57,20 +57,21 @@ ngDevhres
  *  Menu
  */
 ngDevhres
+
     .directive('uiNav', ['$timeout', function($timeout) {
-        return {
-            restrict: 'AC',
-            link: function(scope, el, attr) {
-                el.find('a').bind('click', function(e) {
-                    var li = angular.element(this).parent();
-                    var active = li.parent()[0].querySelectorAll('.active');
-                    li.toggleClass('active');
-                    angular.element(active).removeClass('active');
-                    //angular.element(active).removeClass('toggled');
-                });
-            }
-        };
-    }])
+    return {
+        restrict: 'AC',
+        link: function(scope, el, attr) {
+            el.find('a').bind('click', function(e) {
+                var li = angular.element(this).parent();
+                var active = li.parent()[0].querySelectorAll('.active');
+                li.toggleClass('active');
+                angular.element(active).removeClass('active');
+                //angular.element(active).removeClass('toggled');
+            });
+        }
+    };
+}])
 
 // =========================================================================
 // SUBMENU TOGGLE
@@ -184,12 +185,24 @@ ngDevhres
         var deshabilitar, var1, var2;
         if (opcion === 'anterior') {
             deshabilitar = scope.page - 1 <= 0;
-            var1 = { value: "<<", page: 1 };
-            var2 = { value: "<", page: scope.previous };
+            var1 = {
+                value: "<<",
+                page: 1
+            };
+            var2 = {
+                value: "<",
+                page: scope.previous
+            };
         } else {
             deshabilitar = scope.page + 1 > scope.pages;
-            var1 = { value: ">", page: scope.next };
-            var2 = { value: ">>", page: scope.pages };
+            var1 = {
+                value: ">",
+                page: scope.next
+            };
+            var2 = {
+                value: ">>",
+                page: scope.pages
+            };
         }
 
         var mybutton = function(myparam, deshabilitar) {
@@ -220,7 +233,9 @@ ngDevhres
         param.query = scope.query;
 
         //scope.accion({ page: scope.page, pages: scope.pages });
-        scope.accion({ params: param });
+        scope.accion({
+            params: param
+        });
     }
 
     function rango(inicio, fin, scope) {
@@ -238,11 +253,15 @@ ngDevhres
     }
 
     function agregarPuntos(scope) {
-        scope.Pagination.push({ value: scope.puntos });
+        scope.Pagination.push({
+            value: scope.puntos
+        });
     }
 
     function agregarRango(scope) {
-        scope.Pagination.push({ value: scope.rango });
+        scope.Pagination.push({
+            value: scope.rango
+        });
     }
 
     function agregarPrimero(next, scope) {
@@ -300,22 +319,6 @@ ngDevhres
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ngDevhres
     .directive('appPagination', function() {
         return {
@@ -353,7 +356,11 @@ ngDevhres
                     for (i = 1; i <= numPages; i++) {
                         var params = {};
                         params.page = i;
-                        pagesInRange.push({ page: i, params: params, cp: cp });
+                        pagesInRange.push({
+                            page: i,
+                            params: params,
+                            cp: cp
+                        });
                     }
                     return pagesInRange;
                 },
@@ -364,12 +371,17 @@ ngDevhres
                         pagesInRange = [];
                     var cp = {};
                     cp.page = currentPage + 1;
-                    cp.query = scope.query;
+                    //cp.query = scope.query;
                     for (i = min + 1; i <= max + 1; i++) {
                         var params = {};
                         params.page = i;
-                        params.query = scope.query;
-                        pagesInRange.push({ page: i, params: params, cp: cp });
+                        //params.query = scope.query;
+                        //params.page_size = scope.per;
+                        pagesInRange.push({
+                            page: i,
+                            params: params,
+                            cp: cp
+                        });
                     }
                     return pagesInRange;
                 },
@@ -391,7 +403,11 @@ ngDevhres
                     for (i = min + 1; i <= max + 1; i++) {
                         var params = {};
                         params.page = i;
-                        pagesInRange.push({ page: i, params: params, cp: cp });
+                        pagesInRange.push({
+                            page: i,
+                            params: params,
+                            cp: cp
+                        });
                     }
                     return pagesInRange;
                 }
@@ -399,7 +415,7 @@ ngDevhres
 
             function calculatePagesInRange(vl) {
                 vl--;
-                var currentPage = Math.max(1, Math.min(vl, numPages() ));
+                var currentPage = Math.max(1, Math.min(vl, numPages()));
                 return rangeAlgorithms[scope.format](parseInt(numPages()), currentPage, parseInt(scope.display));
             }
 
@@ -415,8 +431,6 @@ ngDevhres
                 if (num == null) {
                     num = scope.page;
                 }
-                params.query = scope.query;
-
                 scope.nextParams = {};
                 scope.nextParams.page = (parseInt(num) + 1);
                 angular.extend(scope.nextParams, params);
@@ -438,26 +452,77 @@ ngDevhres
                 scope.pagesInRange = calculatePagesInRange(parseInt(num));
                 var firstPageInRange = scope.pagesInRange[0];
                 var lastPageInRange = scope.pagesInRange[scope.pagesInRange.length - 1];
-                
+
                 scope.firstPageInRange = calculatePagesInRange(parseInt(firstPageInRange.page) - 1);
                 scope.lastPageInRange = calculatePagesInRange(parseInt(lastPageInRange.page) + 1);
                 //scope.$state = $state;
                 //scope.currentPage = num;
                 //scope.pages = scope.pages; //numPages();
                 //scope.rango = scope.rango;
+
+                //scope.per=5;
             }
 
             setVariables();
             scope.listpag = function(params, num) {
-                scope.accion({ params: params });
+                params.query = scope.query;
+                params.page_size = scope.per;
+                scope.accion({
+                    params: params
+                });
                 setVariables(num);
             };
+
+
         }
 
     });
 
 
+ngDevhres
+    .directive('appTitleSearch', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                title: '@',
+                showInput: '@',
+                showLink: '@',
+                sref: '@',
+                minLength: '@',
+                actionMethod: '&',
+                term: '@'
+            },
+            templateUrl: 'app/views/directives/title-search/app_title_search.html',
+            link: function(scope, element, attrs) {
+                scope.param = {};
+                scope.showInput = scope.$eval(attrs.showInput);
+                scope.showLink = scope.$eval(attrs.showLink);
 
+                if (scope.minLength) {
+                    scope.minLength = parseInt(scope.minLength);
+                } else {
+                    scope.minLength = 3;
+                }
+
+                if (scope.term) {
+                    scope.param.q = scope.term;
+
+                } else {
+                    scope.param.q = '';
+                }
+
+                scope.search = function(query) {
+                    if (scope.param.q.length >= scope.minLength) {
+                        scope.actionMethod({
+                            term: query
+                        });
+                    }
+                };
+
+
+            }
+        }
+    });
 
 
 /*

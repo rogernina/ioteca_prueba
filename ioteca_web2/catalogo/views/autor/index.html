@@ -16,7 +16,7 @@
                             <ng-md-icon icon="add" aria-label="title"></ng-md-icon>
                         </md-button>
                     -->
-                        <md-button class="md-button" aria-label="Mostrar todo" ng-click="listAll(options.count)">
+                        <md-button class="md-button" aria-label="Mostrar todo" ng-click="listAll()">
                             Mostrar todo
                         </md-button>
                         <md-button class="md-icon-button" aria-label="Add" ng-click="new($event)">
@@ -84,7 +84,7 @@
                 </md-table-pagination>
 
 
-            <app-pagination ng-if="options.pages>0" per="options.page_size"
+            <app-pagination ng-if="options.pages>0" per="per"
                             page="options.page"
                             format="'jumping'"
                             display="4"

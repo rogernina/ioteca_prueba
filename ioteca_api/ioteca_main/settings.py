@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ('localhost:4000', '127.0.0.1:4000','localhost:9000')
+CORS_ORIGIN_WHITELIST = ('localhost:4000', '127.0.0.1:4000', 'localhost:9000')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,6 +1,7 @@
 from django.db import models
 from ..managers.Autor import AutorManager
 
+
 class Autor(models.Model):
     nombre = models.CharField(max_length=50)
     direccion = models.TextField(null=True, blank=True)

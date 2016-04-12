@@ -17,24 +17,18 @@ app
                 transformResponse: function(r) {
                     var results = [];
                     var options = {};
-                    if (r !== null) {
-                        if (angular.fromJson(r).results === null) {
-                            results = angular.fromJson(r);
-                        } else {
-                            results = angular.fromJson(r).results;
-                        }
-                        if (angular.fromJson(r).options === null) {
-                            options = angular.fromJson(r);
-                        } else {
-                            options = angular.fromJson(r).options;
-                        }
-                        return { results: results, options: options };
-                    }
+                    results = angular.fromJson(r).results ? angular.fromJson(r).results: angular.fromJson(r);
+                    options = angular.fromJson(r).options ? angular.fromJson(r).options:{"count":1,"pages":1,"page":1,"per":1,"range":"all",
+                    "previous":null,"page_size":1,"next":null};
+
+
+                    return { results: results, options: options };
                 }
             },
             "options": {
-                method: 'OPTIONS', isArray: false,
-                transformResponse: function (r) {
+                method: 'OPTIONS',
+                isArray: false,
+                transformResponse: function(r) {
                     return angular.fromJson(r).actions.POST;
                 }
             }

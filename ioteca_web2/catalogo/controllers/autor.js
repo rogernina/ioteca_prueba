@@ -5,17 +5,19 @@ app
     //Valores iniciales
     var params = {};
     params.page = $stateParams.page ? $stateParams.page : 1;
-    //params.page_size = $scope.page_size ? $scope.page_size : 4;
+    params.page_size =  5;
     $scope.lista = [];
     $scope.autor = {};
     
 
     $scope.list = function(params) {
-        console.log("query: " + params.query);
+
+        console.log("page_size: " + params.page_size);
         //API.Autor.list({ query: $scope.query, page: page }).$promise.then(function(r) {
         API.Autor.list(params).$promise.then(function(r) {
             $scope.lista = r.results;
             $scope.options = r.options;
+            //$scope.per= $scope.per ? $scope.per :r.options.page_size;
         }, function(err) {
             console.log("Err " + err);
         });
@@ -25,19 +27,20 @@ app
 
     $scope.buscar = function() {
         params.page = 1;
-        //params.fields = 'nombre,codigo';
+        params.fields = 'nombre,direccion';
         params.query = $scope.query;
+        params.page_size= $scope.per;
         $scope.list(params);
 
     };
 
 
-    $scope.listAll = function(page_size) {
+    $scope.listAll = function() {
         //params.page = 1;
-        //params.fields = 'nombre,codigo';
-        params.query = $scope.query;
-        params.page_size = page_size; //ToDo quitar
-        params.all = true; //ToDo, así debe quedar
+        //params.fields = 'nombre,direccion';
+        //params.query = $scope.query;
+        //params.page_size= $scope.per;
+        params.all = true; //así debe quedar
         $scope.list(params);
 
     };

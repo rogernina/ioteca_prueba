@@ -22,7 +22,7 @@
 
 
 
-    
+
     <md-button class=" md-raised  md-mini" aria-label="Settings" ng-show="pagesInRange[0].page != 1"
                data-ng-click="listpag(firstPageInRange[0].cp,firstPageInRange[0].cp.page)">
         ...
@@ -52,5 +52,13 @@
         <ng-md-icon icon="skip_next" size="24"></ng-md-icon>
     </md-button>
 <span ng-bind="rango"></span> 
+
+
+<select ng-model="per" ng-change="listpag(startParams,startParams.page)">
+       <option value="2">2</option>
+      <option value="5">5</option>
+      <option value="20">20</option>
+    </select>
+
 </section>
 
